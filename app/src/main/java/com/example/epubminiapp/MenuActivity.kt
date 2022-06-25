@@ -1,26 +1,28 @@
 package com.example.epubminiapp
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ProgressBar
 import android.os.Bundle
-import com.example.epubminiapp.R
 import android.widget.GridView
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.AdapterView
-import com.example.epubminiapp.BookInfo
-import com.example.epubminiapp.MenuActivity.ListBookInfoTask
 import android.os.AsyncTask
 import com.github.mertakdut.exception.ReadingException
-import com.example.epubminiapp.BookInfoGridAdapter
 import android.widget.Toast
 import android.os.Environment
 import android.content.Intent
-import com.example.epubminiapp.MainActivity
-import android.content.DialogInterface
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.github.mertakdut.Reader
 import java.io.File
 import java.io.FileOutputStream
@@ -29,10 +31,14 @@ import java.lang.RuntimeException
 import java.util.ArrayList
 
 class MenuActivity : AppCompatActivity() {
+
     private var progressBar: ProgressBar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
+
+
+
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         (findViewById<View>(R.id.grid_book_info) as GridView).onItemClickListener = OnItemClickListener { adapterView, view, i, l ->
@@ -63,7 +69,7 @@ class MenuActivity : AppCompatActivity() {
         }
 
         override fun doInBackground(vararg p0: Any?): List<BookInfo>? {
-            val bookInfoList = searchForPdfFiles()
+            val bookInfoList = searchForEpubFiles()
             val reader = Reader()
             for (bookInfo in bookInfoList!!) {
                 try {
@@ -84,22 +90,63 @@ class MenuActivity : AppCompatActivity() {
             return bookInfoList
         }
     }
-    private fun searchForPdfFiles(): List<BookInfo>? {
+    private fun searchForEpubFiles(): List<BookInfo>? {
         val isSDPresent = Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
         var bookInfoList: MutableList<BookInfo>? = null
-        if (isSDPresent) {
-            bookInfoList = ArrayList()
-            val files = getListFiles(File(Environment.getExternalStorageDirectory().absolutePath))
-            val sampleFile = getFileFromAssets("pg28885-images_new.epub")
-            files.add(0, sampleFile)
-            for (file in files) {
-                val bookInfo = BookInfo()
-                bookInfo.title = file.name
-                bookInfo.filePath = file.path
-                bookInfoList.add(bookInfo)
+
+        if(checkPermission()){
+            if (isSDPresent) {
+                bookInfoList = ArrayList()
+                Log.d("FILES",Environment.getExternalStoragePublicDirectory("Download").absolutePath)
+                val files = getListFiles(File(Environment.getExternalStorageDirectory().absolutePath))
+                val sampleFile = getFileFromAssets("pg28885-images_new.epub")
+                files.add(0, sampleFile)
+                for (file in files) {
+                    val bookInfo = BookInfo()
+                    bookInfo.title = file.name
+                    bookInfo.filePath = file.path
+                    bookInfoList.add(bookInfo)
+                }
             }
         }
+        else{
+            requestPermission();
+        }
+
+
         return bookInfoList
+    }
+    // request permissions from the user
+    private fun requestPermission() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+        {
+            try{
+                var intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+                intent.addCategory("android.intent.category.DEFAULT")
+                val uri = Uri.fromParts("package",packageName,null)
+                intent.data = uri
+                startActivity(intent)
+            } catch(e:Exception){
+                var intent = Intent();
+                intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                startActivity(intent)
+            }
+        }
+        else{
+            ActivityCompat.requestPermissions(this@MenuActivity, arrayOf(WRITE_EXTERNAL_STORAGE,
+                READ_EXTERNAL_STORAGE),30)
+        }
+    }
+    // check permissions for writing and reading external storage
+    private fun checkPermission(): Boolean
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+            return Environment.isExternalStorageManager()
+        }
+        val readcheck = ContextCompat.checkSelfPermission(applicationContext, READ_EXTERNAL_STORAGE)
+        val writecheck = ContextCompat.checkSelfPermission(applicationContext,
+            WRITE_EXTERNAL_STORAGE)
+        return readcheck == PackageManager.PERMISSION_GRANTED && writecheck == PackageManager.PERMISSION_GRANTED
     }
 
     fun getFileFromAssets(fileName: String): File {
@@ -124,7 +171,6 @@ class MenuActivity : AppCompatActivity() {
         val files = parentDir.listFiles()
         if (files != null) {
             for (file in files) {
-                Log.d("FILES","igothere")
                 Log.d("FILES",file.name)
                 if (file.isDirectory) {
                     inFiles.addAll(getListFiles(file))
