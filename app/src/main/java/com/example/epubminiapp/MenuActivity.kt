@@ -187,18 +187,6 @@ class MenuActivity : AppCompatActivity() {
     private fun askForWidgetToUse(filePath: String?) {
         val intent = Intent(this@MenuActivity, MainActivity::class.java)
         intent.putExtra("filePath", filePath)
-        AlertDialog.Builder(this@MenuActivity)
-                .setTitle("Pick your widget")
-                .setMessage("Textview or WebView?")
-                .setPositiveButton("TextView") { dialog, which ->
-                    intent.putExtra("isWebView", false)
-                    startActivity(intent)
-                }
-                .setNegativeButton("WebView") { dialog, which ->
-                    intent.putExtra("isWebView", true)
-                    startActivity(intent)
-                }
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show()
+        startActivity(intent)
     }
 }

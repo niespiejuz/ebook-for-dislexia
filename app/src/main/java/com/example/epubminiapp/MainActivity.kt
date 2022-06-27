@@ -49,13 +49,12 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         mViewPager!!.adapter = mSectionsPagerAdapter
         if (intent != null && intent.extras != null) {
             val filePath = intent.extras!!.getString("filePath")
-            isPickedWebView = intent.extras!!.getBoolean("isWebView")
             try {
                 reader = Reader()
 
                 // Setting optionals once per file is enough.
                 reader!!.setMaxContentPerSection(1250)
-                reader!!.setCssStatus(if (isPickedWebView) CssStatus.INCLUDE else CssStatus.OMIT)
+                reader!!.setCssStatus(CssStatus.OMIT)
                 reader!!.setIsIncludingTextContent(true)
                 reader!!.setIsOmittingTitleTag(true)
 
