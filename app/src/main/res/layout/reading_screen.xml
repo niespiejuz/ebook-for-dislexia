@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:paddingLeft="0dp"
+    android:paddingTop="0dp"
+    android:paddingRight="0dp">
+
+    <ScrollView
+        android:id="@+id/ReadView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ReadView_TextField"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:background="#AA8F72">
+
+                <TextView
+                    android:id="@+id/ReadView_TextBox"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="24dp"
+                    android:text="W małym miasteczku o nazwie Strumykowo, mieszkał Pan Staszek, który prowadził piekarnię. Jego pyszne drożdżówki, świeże, pachnące i chrupiące pieczywo przyciągały codziennie rano wielu okolicznych mieszkańców.  Pewnego poranka, kiedy sąsiad Pana Staszka kupował na śniadanie chleb i właśnie miał wychodzić, rozległ się przeraźliwy huk tłuczonego szkła. Do piekarni przez roztrzaskaną witrynę wpadł kamień wielkości niewielkiej cegły. Szyba rozkruszyła się na kawałki. Pan Staszek zerwał się w jednej chwili, wybiegł przed piekarnię i zaczął gonić łobuza, który rzucił kamieniem. Niestety zbieg oddalał się coraz bardziej, aż w końcu tuż za następnym budynkiem Pan Staszek stracił go z oczu. Zdyszany i wściekły wrócił do piekarni, wokół której zebrał się tłum.  Jedni zaczęli już prowadzić wewnętrzne śledztwo i wskazywać winnego całego zdarzenia. Inni pocieszali Pana Staszka. Kolejni oferowali swoją pomoc. Kiedy dyskusja dobiegała już niemal końca, odezwał się cichy jak do tej pory Pan Tadzio.  – Słuchajcie! Nie ma tego złego, co by na dobre nie wyszło. Ja wiem, że wybicie szyby to coś złego, ale zastanówmy się: ile będzie kosztować wstawienie nowej?  – 150 zł – odpowiedziała Pani Hania,  – Za mało. Przecież trzeba uwzględnić w tej cenie pracę szklarza. Myślę, że będzie to koszt około 250 zł – odezwał się Pan Staszek.  – Właśnie! – kontynuował swoje przemyślenia Pan Tadzio. Przez to, że nikomu nieznany złodziejaszek wybił szybę w piekarni, nasz jedyny w mieście szklarz, Pan Wojtek zarobi parę groszy. A zarobione pieniądze będzie miał okazję wydać u innych sprzedawców. A ci, za otrzymaną gotówkę, będą mogli coś kupić u kolejnych. Stłuczona szyba dostarcza więc pieniędzy, które krążą między mieszkańcami naszego miasta. Bo skoro ktoś chce coś kupić, to ktoś inny musi najpierw to wytworzyć. Musi więc pracować, by ostatecznie otrzymać zapłatę za wytworzony towar.  – Panie Tadzio! – przerwał nagle Pan Staszek – czy chce nam Pan powiedzieć, że chuligan, który wybił mi szybę, jest dobrym człowiekiem, bo dzięki niemu ktoś będzie miał pracę i przez to zarobi pieniądze?  – Z jednej strony tak – odpowiedział Pan Tadzio.  – Nieprawda! – do rozmowy włączył się Pan Henio. Nie można w ten sposób tłumaczyć tak podłego zachowania tego łobuza. Ma Pan rację, Panie Tadzio, że zadowolony będzie nasz szklarz, Pan Wojtek. Ale czy pomyślał Pan o Panu Stasiu? Przecież gdyby nie chuligan, Pan Staś nie musiałby wydawać 250 zł na nową szybę.  – To prawda! – wtrącił się Pan Staś. Powiem Wam coś więcej. Owe 250 zł zamierzałem przeznaczyć na wspólną wycieczkę w góry z moim synem i żoną. Mieliśmy też odwiedzić kino.  – No właśnie! – kontynuował Pan Henio. Niestety w takiej sytuacji Pan Staś nie tylko nie zabierze syna na wycieczkę, ale nie da zarobić Pani, która sprzedaje pamiątki w górach. Tylko z tego powodu, że chuligan wybił szybę w piekarni Pana Stasia, zysk szklarza, będzie stratą Pani sprzedającej pamiątki.  – To prawda! – potwierdził smutny Pan Stasio. Niestety nie pojedziemy z synem na wycieczkę… A on tak bardzo chciał jechać w góry…  ***  Ludzie zebrani przy piekarni widzieli tylko poszkodowanego Pana Stasia i szklarza, który będzie musiał wstawić nową szybę. Zapomnieli jednak o Pani sprzedającej pamiątki w górach. Zapomnieli o niej, bo jej po prostu nie widzieli. Za dwa dni ludzie Ci zobaczą nową szybę w piekarni, ale nie zobaczą Pana Stasia i jego rodziny w górach na wycieczce.  Bo wielką sztuką jest dostrzegać to, czego bezpośrednio ujrzeć wzrokiem nie można."
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/ReadView_Bottom"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/ReadButton_Back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="40dp"
+                android:background="#00FFFFFF"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_media_previous" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/ReadButton_Pause"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#00FFFFFF"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_media_pause" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/ReadButton_Next"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#00FFFFFF"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_media_next" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical">
+
+            <ImageButton
+                android:id="@+id/ReadButton_More"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#00FFFFFF"
+                android:onClick="showPopup"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/more_icon_20"
+                tools:srcCompat="@drawable/more_icon32" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
