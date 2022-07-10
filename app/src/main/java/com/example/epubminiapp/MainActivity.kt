@@ -21,6 +21,7 @@ import android.text.Html.ImageGetter
 import android.graphics.drawable.Drawable
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.util.Base64
 import android.util.DisplayMetrics
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private var pageCount = Int.MAX_VALUE
     private var pxScreenWidth = 0
-    private var isPickedWebView = false
+    private var textSize: Float = 32.0F
     private var isSkippedToPage = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
                 reader = Reader()
 
                 // Setting optionals once per file is enough.
-                reader!!.setMaxContentPerSection(1250)
+                reader!!.setMaxContentPerSection((450/32) * this.textSize.toInt() )
                 reader!!.setCssStatus(CssStatus.OMIT)
                 reader!!.setIsIncludingTextContent(true)
                 reader!!.setIsOmittingTitleTag(true)
@@ -89,7 +90,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         }
         isSkippedToPage = false
         return if (bookSection != null) {
-            setFragmentView(isPickedWebView, bookSection.sectionContent, "text/html", "UTF-8") // reader.isContentStyled
+            setFragmentView(bookSection.sectionContent, "text/html", "UTF-8") // reader.isContentStyled
         } else null
     }
 
@@ -111,39 +112,39 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         }
     }
 
-    private fun setFragmentView(isContentStyled: Boolean, data: String, mimeType: String, encoding: String): View {
+    private fun setFragmentView( data: String, mimeType: String, encoding: String): View {
         val layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        return if (isContentStyled) {
-            val webView = WebView(this@MainActivity)
-            webView.loadDataWithBaseURL(null, data, mimeType, encoding, null)
 
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//                webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-//            }
-            webView.layoutParams = layoutParams
-            webView
-        } else {
-            val scrollView = ScrollView(this@MainActivity)
-            scrollView.layoutParams = layoutParams
-            val textView = TextView(this@MainActivity)
-            textView.layoutParams = layoutParams
-            textView.text = Html.fromHtml(data, { source ->
-                val imageAsStr = source.substring(source.indexOf(";base64,") + 8)
-                val imageAsBytes = Base64.decode(imageAsStr, Base64.DEFAULT)
-                val imageAsBitmap = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
-                val imageWidthStartPx = (pxScreenWidth - imageAsBitmap.width) / 2
-                val imageWidthEndPx = pxScreenWidth - imageWidthStartPx
-                val imageAsDrawable: Drawable = BitmapDrawable(resources, imageAsBitmap)
-                imageAsDrawable.setBounds(imageWidthStartPx, 0, imageWidthEndPx, imageAsBitmap.height)
-                imageAsDrawable
-            }, null)
-            val pxPadding = dpToPx(12)
-            textView.setPadding(pxPadding, pxPadding, pxPadding, pxPadding)
-            scrollView.addView(textView)
-            scrollView
-        }
+        val scrollView = ScrollView(this@MainActivity)
+        scrollView.layoutParams = layoutParams
+        val textView = TextView(this@MainActivity)
+        textView.layoutParams = layoutParams
+        textView.setTextColor(Color.WHITE)
+        textView.setTextSize(this.textSize)
+        textView.text = Html.fromHtml(data, { source ->
+            val imageAsStr = source.substring(source.indexOf(";base64,") + 8)
+            val imageAsBytes = Base64.decode(imageAsStr, Base64.DEFAULT)
+            val imageAsBitmap = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
+            val imageWidthStartPx = (pxScreenWidth - imageAsBitmap.width) / 2
+            val imageWidthEndPx = pxScreenWidth - imageWidthStartPx
+            val imageAsDrawable: Drawable = BitmapDrawable(resources, imageAsBitmap)
+            imageAsDrawable.setBounds(imageWidthStartPx, 0, imageWidthEndPx, imageAsBitmap.height)
+            imageAsDrawable
+        }, null)
+        val pxPadding = dpToPx(12)
+        textView.setPadding(pxPadding, pxPadding, pxPadding, pxPadding)
+        scrollView.addView(textView)
+        return scrollView
+    }
+    public final fun onNextButtonPress(vw: android.view.View) {
+        val currElement = mViewPager!!.currentItem;
+        mViewPager!!.setCurrentItem(currElement+1);
     }
 
+    public final fun onPrevButtonPress(vw: android.view.View) {
+        val currElement = mViewPager!!.currentItem;
+        mViewPager!!.setCurrentItem(currElement-1);
+    }
     private fun dpToPx(dp: Int): Int {
         val displayMetrics = resources.displayMetrics
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
@@ -159,4 +160,6 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             return PageFragment.newInstance(position)
         }
     }
+
+    fun openFileDialog(view: View) {}
 }

@@ -18,6 +18,7 @@ import android.widget.ImageView
 class BookInfoGridAdapter(private val context: Context, private val bookInfoList: List<BookInfo>) : BaseAdapter() {
     private inner class ViewHolder {
         var title: TextView? = null
+        var author: TextView? = null
         var coverImage: ImageView? = null
     }
 
@@ -41,12 +42,14 @@ class BookInfoGridAdapter(private val context: Context, private val bookInfoList
             convertView = inflater.inflate(R.layout.book_item, parent, false)
             viewHolder = ViewHolder()
             viewHolder.title = convertView.findViewById<View>(R.id.txt_book_title) as TextView
+            viewHolder.author = convertView.findViewById<View>(R.id.txt_book_author) as TextView
             viewHolder.coverImage = convertView.findViewById<View>(R.id.img_cover) as ImageView
             convertView.tag = viewHolder
         } else {
             viewHolder = convertView.tag as ViewHolder
         }
         viewHolder.title!!.text = bookInfoList[position].title
+        viewHolder.author!!.text = bookInfoList[position].author
         val isCoverImageNotExists = bookInfoList[position].isCoverImageNotExists
         if (!isCoverImageNotExists) { // Not searched for coverImage for this position yet. It may exist.
             val savedBitmap = bookInfoList[position].coverImageBitmap

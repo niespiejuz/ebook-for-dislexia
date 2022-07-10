@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 
 class BookInfo {
     var title: String? = null
+    var author: String? = null
     var coverImage: ByteArray? = null
     var filePath: String? = null
     var isCoverImageNotExists = false

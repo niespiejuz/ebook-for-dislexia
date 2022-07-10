@@ -2,6 +2,7 @@ package com.example.epubminiapp
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.app.Activity
 import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ProgressBar
@@ -19,6 +20,9 @@ import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -32,7 +36,7 @@ import java.util.ArrayList
 
 class MenuActivity : AppCompatActivity() {
 
-    private var progressBar: ProgressBar? = null
+    private var bookList: MutableList<BookInfo>? = null;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
@@ -45,20 +49,20 @@ class MenuActivity : AppCompatActivity() {
             val clickedItemFilePath = (adapterView.adapter.getItem(i) as BookInfo).filePath
             askForWidgetToUse(clickedItemFilePath)
         }
-        progressBar = findViewById<View>(R.id.progressbar) as ProgressBar
-        ListBookInfoTask().execute()
+        //progressBar = findViewById<View>(R.id.progressbar) as ProgressBar
+        this.bookList = ListBookInfoTask().execute().get() as MutableList<BookInfo>
     }
 
     private inner class ListBookInfoTask : AsyncTask<Any?, Any?, List<BookInfo>?>() {
         private var occuredException: Exception? = null
         override fun onPreExecute() {
             super.onPreExecute()
-            progressBar!!.visibility = View.VISIBLE
+           // progressBar!!.visibility = View.VISIBLE
         }
 
         override fun onPostExecute(bookInfoList: List<BookInfo>?) {
             super.onPostExecute(bookInfoList)
-            progressBar!!.visibility = View.GONE
+            //progressBar!!.visibility = View.GONE
             if (bookInfoList != null) {
                 val adapter = BookInfoGridAdapter(this@MenuActivity, bookInfoList)
                 (findViewById<View>(R.id.grid_book_info) as GridView).adapter = adapter
@@ -75,11 +79,16 @@ class MenuActivity : AppCompatActivity() {
                 try {
                     reader.setInfoContent(bookInfo.filePath)
                     val title = reader.infoPackage.metadata.title
+                    val author = reader.infoPackage.metadata.creator
                     if (title != null && title != "") {
                         bookInfo.title = reader.infoPackage.metadata.title
+
                     } else { // If title doesn't exist, use fileName instead.
                         val dotIndex = bookInfo.title!!.lastIndexOf('.')
                         bookInfo.title = bookInfo.title!!.substring(0, dotIndex)
+                    }
+                    if( author != null && author != ""){
+                        bookInfo.author = author
                     }
                     bookInfo.coverImage = reader.coverImage
                 } catch (e: ReadingException) {
@@ -89,6 +98,29 @@ class MenuActivity : AppCompatActivity() {
             }
             return bookInfoList
         }
+    }
+
+    val sActivityResultLauncher: ActivityResultLauncher<Intent>  = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        result: ActivityResult ->
+            if(result.resultCode == Activity.RESULT_OK) {
+                val data: Intent = result.data!!
+                val uri: Uri = data.data!!
+                val file = File(uri.path)
+                val bookInfo = BookInfo()
+                bookInfo.title = file.name
+                bookInfo.filePath = file.path
+                bookList!!.add(bookInfo)
+                val adapter = BookInfoGridAdapter(this@MenuActivity, bookList!!)
+                (findViewById<View>(R.id.grid_book_info) as GridView).adapter = adapter
+
+            }
+    }
+
+    public final fun openFileDialog(view: android.view.View){
+        var data = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        data.setType("*/*")
+        data = Intent.createChooser(data,"Choose a file")
+        sActivityResultLauncher.launch(data)
     }
     private fun searchForEpubFiles(): List<BookInfo>? {
         val isSDPresent = Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED

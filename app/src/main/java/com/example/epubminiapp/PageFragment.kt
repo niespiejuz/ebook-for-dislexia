@@ -6,10 +6,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.os.Bundle
 import android.view.View
-import com.example.epubminiapp.R
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
-import com.example.epubminiapp.PageFragment
+
 
 class PageFragment : Fragment() {
     private var onFragmentReadyListener: OnFragmentReadyListener? = null

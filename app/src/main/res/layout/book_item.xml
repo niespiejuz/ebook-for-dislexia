@@ -18,8 +18,31 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/img_cover"
         android:ellipsize="end"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:gravity="center_horizontal"
+        android:lines="1"
+        android:text="Sample Title" />
+
+    <TextView
+        android:id="@+id/txt_book_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_book_title"
+        android:ellipsize="end"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
         android:gravity="center_horizontal"
         android:lines="2"
-        android:text="Sample Title" />
+        android:text="Sample Author" />
+
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_below="@+id/txt_book_author"/>
 
 </RelativeLayout>
