@@ -41,10 +41,13 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
+       // val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+       // setSupportActionBar(toolbar)
 
-
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
+        val settingsBtn = findViewById<View>(R.id.Settings_Button)
+        settingsBtn.setOnClickListener{
+            showSettings()
+        }
         (findViewById<View>(R.id.grid_book_info) as GridView).onItemClickListener = OnItemClickListener { adapterView, view, i, l ->
             val clickedItemFilePath = (adapterView.adapter.getItem(i) as BookInfo).filePath
             askForWidgetToUse(clickedItemFilePath)
@@ -116,6 +119,10 @@ class MenuActivity : AppCompatActivity() {
             }
     }
 
+    public final fun showSettings(){
+        val intent = Intent(this@MenuActivity, SettingsView::class.java)
+        startActivity(intent)
+    }
     public final fun openFileDialog(view: android.view.View){
         var data = Intent(Intent.ACTION_OPEN_DOCUMENT)
         data.setType("*/*")

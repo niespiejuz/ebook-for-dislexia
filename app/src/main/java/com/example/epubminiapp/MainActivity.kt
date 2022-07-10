@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
                 reader = Reader()
 
                 // Setting optionals once per file is enough.
-                reader!!.setMaxContentPerSection((450/32) * this.textSize.toInt() )
+                reader!!.setMaxContentPerSection((400/32) * this.textSize.toInt() )
                 reader!!.setCssStatus(CssStatus.OMIT)
                 reader!!.setIsIncludingTextContent(true)
                 reader!!.setIsOmittingTitleTag(true)
