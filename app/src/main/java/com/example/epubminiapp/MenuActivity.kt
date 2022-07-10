@@ -3,36 +3,33 @@ package com.example.epubminiapp
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
-import android.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import android.widget.ProgressBar
-import android.os.Bundle
-import android.widget.GridView
-import android.widget.AdapterView.OnItemClickListener
-import android.os.AsyncTask
-import com.github.mertakdut.exception.ReadingException
-import android.widget.Toast
-import android.os.Environment
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Build
+import android.os.Bundle
+import android.os.Environment
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.GridView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.github.mertakdut.Reader
+import com.github.mertakdut.exception.ReadingException
 import java.io.File
 import java.io.FileOutputStream
-import java.lang.Exception
-import java.lang.RuntimeException
-import java.util.ArrayList
+
 
 class MenuActivity : AppCompatActivity() {
 
@@ -41,9 +38,9 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-       // val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-       // setSupportActionBar(toolbar)
-
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+       toolbar.setTitleTextColor(Color.WHITE)
         val settingsBtn = findViewById<View>(R.id.Settings_Button)
         settingsBtn.setOnClickListener{
             showSettings()
