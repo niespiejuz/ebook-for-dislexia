@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             val filePath = intent.extras!!.getString("filePath")
             try {
                 reader = Reader()
-
                 // Setting optionals once per file is enough.
                 reader!!.setMaxContentPerSection((400/32) * this.textSize.toInt() )
                 reader!!.setCssStatus(CssStatus.OMIT)
