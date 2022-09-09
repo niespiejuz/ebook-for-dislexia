@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private var pageCount = Int.MAX_VALUE
     private var pxScreenWidth = 0
-    private var textSize: Float = 32.0F
+    private var textSize: Float = 24f
     private var isSkippedToPage = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
