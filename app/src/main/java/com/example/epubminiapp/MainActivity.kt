@@ -8,14 +8,10 @@ import android.os.Bundle
 import com.example.epubminiapp.R
 import com.github.mertakdut.CssStatus
 import com.github.mertakdut.exception.ReadingException
-import android.widget.Toast
 import com.github.mertakdut.BookSection
 import com.github.mertakdut.exception.OutOfPagesException
-import android.widget.FrameLayout
 import android.view.ViewGroup
 import android.webkit.WebView
-import android.widget.ScrollView
-import android.widget.TextView
 import android.text.Html
 import android.text.Html.ImageGetter
 import android.graphics.drawable.Drawable
@@ -26,6 +22,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.util.Base64
 import android.util.DisplayMetrics
 import android.view.View
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -110,6 +107,17 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             Toast.makeText(this@MainActivity, "Progress is not saved. Out of Bounds. Page Count: " + e.pageCount, Toast.LENGTH_LONG).show()
         }
     }
+    var BackgroundColorItems = arrayOf("Beżowy", "Biały", "Czarny", "Szary")
+    var autoCompleteBackgroundColor : AutoCompleteTextView? = null
+    var adapterBackgroundColor : ArrayAdapter<String>? = null
+
+    var FontColorItems = arrayOf("Czarny", "Biały", "Szary")
+    var autoCompleteFontColor : AutoCompleteTextView? = null
+    var adapterFontColor : ArrayAdapter<String>? = null
+
+    var FontFamilyItems = arrayOf("Roboto", "Arial", "Verdana")
+    var autoCompleteFontFamily : AutoCompleteTextView? = null
+    var adapterFontFamily : ArrayAdapter<String>? = null
 
     private fun setFragmentView( data: String, mimeType: String, encoding: String): View {
         val layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
@@ -129,6 +137,31 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             val imageAsDrawable: Drawable = BitmapDrawable(resources, imageAsBitmap)
             imageAsDrawable.setBounds(imageWidthStartPx, 0, imageWidthEndPx, imageAsBitmap.height)
             imageAsDrawable
+
+            autoCompleteBackgroundColor = findViewById<AutoCompleteTextView>(R.id.auto_txt_background_color)
+            adapterBackgroundColor = ArrayAdapter(this, R.layout.list_item, BackgroundColorItems)
+            autoCompleteBackgroundColor!!.setAdapter(adapterBackgroundColor)
+            autoCompleteBackgroundColor!!.setOnItemClickListener(AdapterView.OnItemClickListener { parent, view, position, id ->
+                val item = parent.getItemAtPosition(position).toString()
+                Toast.makeText(applicationContext, "Item: $item", Toast.LENGTH_SHORT).show()
+            })
+
+            autoCompleteFontColor = findViewById<AutoCompleteTextView>(R.id.auto_txt_font_color)
+            adapterFontColor = ArrayAdapter(this, R.layout.list_item, FontColorItems)
+            autoCompleteFontColor!!.setAdapter(adapterFontColor)
+            autoCompleteFontColor!!.setOnItemClickListener(AdapterView.OnItemClickListener { parent, view, position, id ->
+                val item = parent.getItemAtPosition(position).toString()
+                Toast.makeText(applicationContext, "Item: $item", Toast.LENGTH_SHORT).show()
+            })
+
+            autoCompleteFontFamily = findViewById<AutoCompleteTextView>(R.id.auto_txt_font_family)
+            adapterFontFamily = ArrayAdapter(this, R.layout.list_item, FontFamilyItems)
+            autoCompleteFontFamily!!.setAdapter(adapterFontFamily)
+            autoCompleteFontFamily!!.setOnItemClickListener(AdapterView.OnItemClickListener { parent, view, position, id ->
+                val item = parent.getItemAtPosition(position).toString()
+                Toast.makeText(applicationContext, "Item: $item", Toast.LENGTH_SHORT).show()
+            })
+
         }, null)
         val pxPadding = dpToPx(12)
         textView.setPadding(pxPadding, pxPadding, pxPadding, pxPadding)
@@ -159,6 +192,11 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             return PageFragment.newInstance(position)
         }
     }
+
+
+
+
+
 
     fun openFileDialog(view: View) {}
 }
