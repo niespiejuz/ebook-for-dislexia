@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 
 class PageFragment : Fragment() {
     private var onFragmentReadyListener: OnFragmentReadyListener? = null
-
     interface OnFragmentReadyListener {
         fun onFragmentReady(position: Int): View?
     }
