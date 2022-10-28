@@ -52,7 +52,7 @@ class SettingsView : AppCompatActivity() {
             }
 
             override fun onStartTrackingTouch(seek: SeekBar) {
-                // write custom code for progress is started
+                // write custom code for progress is started 1
             }
 
             override fun onStopTrackingTouch(seek: SeekBar) {
