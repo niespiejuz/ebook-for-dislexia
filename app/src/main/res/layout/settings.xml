@@ -176,12 +176,23 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="Kolor tła"
+                                android:text="Styl"
                                 android:textColor="#FFFFFF"
                                 android:textSize="24sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/styleSpinner"
+                                style="@style/mySpinnerItemStyle"
+                                android:layout_width="160px"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="8dp"
+                                android:backgroundTint="@color/white"
+                                android:spinnerMode="dropdown"
+                                app:layout_constraintStart_toEndOf="@+id/StOp_BackColor_Txt"
+                                app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </LinearLayout>

@@ -14,6 +14,7 @@ import android.os.Environment
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.GridView
 import android.widget.TextView
@@ -36,6 +37,7 @@ class MenuActivity : AppCompatActivity() {
     private var bookList: MutableList<BookInfo>? = null;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppSettings.init(this)
         setContentView(R.layout.activity_menu)
 
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
