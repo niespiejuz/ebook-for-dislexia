@@ -11,14 +11,14 @@ class SettingsView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings)
-        var savedPreferences = this@SettingsView.getPreferences(Context.MODE_PRIVATE)
+        var savedPreferences = this@SettingsView.getSharedPreferences("Prefs", Context.MODE_PRIVATE)
 
 
         val toggle_follow: Switch = findViewById(R.id.StOp_TxtFollow_s)
         toggle_follow.isChecked = savedPreferences.getBoolean("line_highlighting", false)
 
         toggle_follow.setOnCheckedChangeListener { _, isChecked ->
-            Settings.lineHighlighting = isChecked
+            AppSettings.lineHighlighting = isChecked
             with(savedPreferences.edit()){
                 putBoolean("line_highlighting", isChecked)
                 apply()
@@ -28,7 +28,7 @@ class SettingsView : AppCompatActivity() {
         val toggle_highlight: Switch = findViewById(R.id.stOp_Color_Suf_s)
         toggle_highlight.isChecked = savedPreferences.getBoolean("ending_highlighting", false)
         toggle_highlight.setOnCheckedChangeListener { _, isChecked ->
-            Settings.endingHighlighting = isChecked
+            AppSettings.endingHighlighting = isChecked
             with(savedPreferences.edit()){
                 putBoolean("ending_highlighting", isChecked)
                 apply()
@@ -43,9 +43,9 @@ class SettingsView : AppCompatActivity() {
                                            progress: Int, fromUser: Boolean) {
                 val min_font_size = 20.0f
                 val max_font_size = 40.0f
-                Settings.fontSize = (progress/100.0f)*(max_font_size-min_font_size)+ min_font_size
+                AppSettings.fontSize = (progress/100.0f)*(max_font_size-min_font_size)+ min_font_size
                 with(savedPreferences.edit()){
-                    putFloat("font_size", Settings.fontSize)
+                    putFloat("font_size", AppSettings.fontSize)
                     apply()
                 }
             }
@@ -68,7 +68,7 @@ class SettingsView : AppCompatActivity() {
                     putInt("style", p2)
                     apply()
                 }
-                Settings.style = p2
+                AppSettings.style = p2
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

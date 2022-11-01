@@ -1,5 +1,6 @@
 package com.example.epubminiapp
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
@@ -7,16 +8,21 @@ import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 
-object Settings {
-
-    init {
-        Log.d("settings","Initialised settings")
-    }
-
+object AppSettings {
     var endingHighlighting = false;
     var lineHighlighting = true;
     var fontSize:Float = 34.0f
-    //var savedPreferences:SharedPreferences? = null
+    private lateinit var savedPreferences:SharedPreferences
+
+    fun init(context: Context) {
+        savedPreferences = context.getSharedPreferences("Prefs", Context.MODE_PRIVATE)
+        style = savedPreferences.getInt("style",0)
+        endingHighlighting = savedPreferences.getBoolean("ending_highlighting", false)
+        lineHighlighting = savedPreferences.getBoolean("line_highlighting", false)
+        fontSize = savedPreferences.getFloat("font_size", 34.0f)
+    }
+
+
     var style: Int = 0
     val default: Map<String,Int> = mapOf(
         "bg" to R.color.default_bg,

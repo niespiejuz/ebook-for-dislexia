@@ -1,19 +1,15 @@
 package com.example.epubminiapp
 
-import android.content.ContentValues.TAG
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.style.BackgroundColorSpan
 import android.text.style.ForegroundColorSpan
 import android.util.Base64
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -31,8 +27,6 @@ import com.github.mertakdut.CssStatus
 import com.github.mertakdut.Reader
 import com.github.mertakdut.exception.OutOfPagesException
 import com.github.mertakdut.exception.ReadingException
-import org.w3c.dom.Text
-import java.lang.reflect.Field
 import kotlin.math.pow
 
 
@@ -51,7 +45,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        this.textSize = Settings.fontSize
+        this.textSize = AppSettings.fontSize
 
         pxScreenWidth = resources.displayMetrics.widthPixels
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -59,7 +53,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
 
         mViewPager!!.offscreenPageLimit = 1
         mViewPager!!.adapter = mSectionsPagerAdapter
-        mViewPager!!.setBackgroundResource(Settings.getStyle().get("bg")!!)
+        mViewPager!!.setBackgroundResource(AppSettings.getStyle().get("bg")!!)
 
 
         if (intent != null && intent.extras != null) {
@@ -131,11 +125,11 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
 
         scrollView.layoutParams = layoutParams
         val textView = TextView(this@MainActivity)
-        textView.setBackgroundResource(Settings.getStyle().get("bg")!!)
+        textView.setBackgroundResource(AppSettings.getStyle().get("bg")!!)
 
         currentTextView = textView
         textView.layoutParams = layoutParams
-        textView.setTextColor(ContextCompat.getColor(this,Settings.getStyle().get("etc")!!))
+        textView.setTextColor(ContextCompat.getColor(this,AppSettings.getStyle().get("etc")!! ))
 
         textView.setTextSize(this.textSize)
         var typeface = ResourcesCompat.getFont(this, R.font.comicmono)
@@ -154,13 +148,13 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         }, null)
 
 
-        if(Settings.endingHighlighting){
+        if(AppSettings.endingHighlighting){
             colorEndings(textView.text)
         }
 
         var nextLineButton = findViewById<View>(R.id.NextLineButton)
         nextLineButton.visibility = View.GONE
-        if(Settings.lineHighlighting){
+        if(AppSettings.lineHighlighting){
             var nextLineButton = findViewById<View>(R.id.NextLineButton)
             nextLineButton.visibility = View.VISIBLE
         }
@@ -180,7 +174,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         do
         {
             val current_word_spannable = SpannableStringBuilder(word_list[word_counter] + " ")
-            val fgd_color_value = Settings.getStyle().get("syl")!!
+            val fgd_color_value = AppSettings.getStyle().get("syl")!!
             val fgd_color = ForegroundColorSpan(ContextCompat.getColor(this,fgd_color_value))
             var work_index = word_list[word_counter].length
             //val span_begin = work_index-2
@@ -243,17 +237,19 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         {
             val span_begin = the_layout.getLineStart(lineCounter)
             val span_end = the_layout.getLineEnd(lineCounter)
-            val bckd_color = BackgroundColorSpan(ContextCompat.
-                    getColor(this,Settings.getStyle().get("hi")!!))
-            text_spanned.setSpan(bckd_color,
-                span_begin, span_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            val bckd_color = ForegroundColorSpan(ContextCompat.
+                    getColor(this,AppSettings.getStyle().get("etc")!!))
+
+            text_spanned.setSpan(bckd_color, span_begin,
+                span_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         if(lineCounter>0 && lineCounter<=text_view!!.lineCount)
         {
             val span_begin2 = the_layout.getLineStart(lineCounter-1)
             val span_end2 = the_layout.getLineEnd(lineCounter-1)
-            val bckd_color2 = BackgroundColorSpan(ContextCompat.
-                getColor(this,Settings.getStyle().get("etc")!!))
+            val bckd_color2 = ForegroundColorSpan(ContextCompat.
+                getColor(this,AppSettings.getStyle().get("hi")!!))
+
             text_spanned.setSpan(bckd_color2,
                 span_begin2, span_end2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
