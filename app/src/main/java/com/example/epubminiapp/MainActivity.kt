@@ -1,6 +1,7 @@
 package com.example.epubminiapp
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
@@ -52,6 +53,10 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         setContentView(R.layout.main_activity)
         this.textSize = Settings.fontSize
 
+        val settingsBtn = findViewById<View>(R.id.ReadButton_More)
+        settingsBtn.setOnClickListener{
+            showSettings()
+        }
 
         pxScreenWidth = resources.displayMetrics.widthPixels
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -105,6 +110,11 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
+    }
+
+    public final fun showSettings(){
+        val intent = Intent(this@MainActivity, SettingsView::class.java)
+        startActivity(intent)
     }
 
     override fun onStop() {
