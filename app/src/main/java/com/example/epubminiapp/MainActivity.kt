@@ -42,6 +42,10 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
     private var currentTextView:TextView? = null
     private var currentScrollView:ScrollView? = null
 
+    // first line bug hotfix variables
+    private var firstPageSkipped = false
+    private var firstPageId : Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
@@ -61,7 +65,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             try {
                 reader = Reader()
                 // Setting optionals once per file is enough.
-                reader!!.setMaxContentPerSection(400000/this.textSize.pow(2).toInt() )
+                reader!!.setMaxContentPerSection(300000/this.textSize.pow(2).toInt() )
                 reader!!.setCssStatus(CssStatus.OMIT)
                 reader!!.setIsIncludingTextContent(true)
                 reader!!.setIsOmittingTitleTag(true)
@@ -72,6 +76,8 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
                     val lastSavedPage = reader!!.loadProgress()
                     mViewPager!!.currentItem = lastSavedPage
                 }
+                firstPageId = mViewPager!!.currentItem
+
             } catch (e: ReadingException) {
                 Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
             }
@@ -134,7 +140,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         textView.setTextSize(this.textSize)
         var typeface = ResourcesCompat.getFont(this, R.font.comicmono)
         textView.typeface = typeface
-        lineCounter = -1
+        lineCounter = 0
 
         textView.text = Html.fromHtml(data, { source ->
             val imageAsStr = source.substring(source.indexOf(";base64,") + 8)
@@ -232,11 +238,16 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         }
         while(++word_counter < word_list.count())
 
-        currentTextView!!.setText(text_spanned)
+        currentTextView!!.text = text_spanned
     }
 
     public fun colorLines(){
-        var current_view = mViewPager!![1] as RelativeLayout
+        var page_index = 1
+        if(firstPageId == mViewPager!!.currentItem){
+            page_index = 0
+        }
+        var current_view = mViewPager!!.getChildAt(page_index) as RelativeLayout
+        var hey = mViewPager!!.childCount
         var current_scroll = current_view[0] as ScrollView
         var text_view = current_scroll[0] as TextView
         ++lineCounter
