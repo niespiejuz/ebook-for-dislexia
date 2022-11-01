@@ -16,9 +16,20 @@ class SettingsView : AppCompatActivity() {
 
 
         val toggle_follow: Switch = findViewById(R.id.StOp_TxtFollow_s)
+        val toggle_highlight: Switch = findViewById(R.id.stOp_Color_Suf_s)
+        val toggle_size: SeekBar = findViewById(R.id.seekBar)
         toggle_follow.isChecked = savedPreferences.getBoolean("line_highlighting", false)
 
         toggle_follow.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked)
+            {
+                toggle_highlight.isChecked = false
+                Settings.endingHighlighting = false
+                with(savedPreferences.edit()){
+                    putBoolean("ending_highlighting", !isChecked)
+                    apply()
+                }
+            }
             Settings.lineHighlighting = isChecked
             with(savedPreferences.edit()){
                 putBoolean("line_highlighting", isChecked)
@@ -26,9 +37,17 @@ class SettingsView : AppCompatActivity() {
             }
         }
 
-        val toggle_highlight: Switch = findViewById(R.id.stOp_Color_Suf_s)
         toggle_highlight.isChecked = savedPreferences.getBoolean("ending_highlighting", false)
         toggle_highlight.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked)
+            {
+                toggle_follow.isChecked = false
+                Settings.lineHighlighting = false
+                with(savedPreferences.edit()){
+                    putBoolean("line_highlighting", !isChecked)
+                    apply()
+                }
+            }
             Settings.endingHighlighting = isChecked
             with(savedPreferences.edit()){
                 putBoolean("ending_highlighting", isChecked)
@@ -36,7 +55,6 @@ class SettingsView : AppCompatActivity() {
             }
         }
 
-        val toggle_size: SeekBar = findViewById(R.id.seekBar)
         toggle_size.progress = (savedPreferences.getFloat("font_size", 50.0f).toInt()*40)/100
         toggle_size?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
