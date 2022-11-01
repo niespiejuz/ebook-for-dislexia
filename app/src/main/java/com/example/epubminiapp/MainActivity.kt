@@ -173,6 +173,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         var text_spanned = SpannableStringBuilder("")
         do
         {
+            print(word_list[word_counter])
             val current_word_spannable = SpannableStringBuilder(word_list[word_counter] + " ")
             val fgd_color_value = AppSettings.getStyle().get("syl")!!
             val fgd_color = ForegroundColorSpan(ContextCompat.getColor(this,fgd_color_value))
@@ -184,38 +185,46 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             var i = 0
             var last_vowel = 0
 
-            while (vowel_count < 2)
+            /**
+             * In this fragment letters to be highlighted are selected
+             * when "endings_colouring" option is enabled
+             */
+            if (work_index>3)
             {
-                if (current_word_spannable[work_index-i] == 'a' || current_word_spannable[work_index-i] == 'e' || current_word_spannable[work_index-i] == 'ą' || current_word_spannable[work_index-i] == 'ę' || current_word_spannable[work_index-i] == 'i' || current_word_spannable[work_index-i] == 'o' || current_word_spannable[work_index-i] == 'ó' || current_word_spannable[work_index-i] == 'u' || current_word_spannable[work_index-i] == 'y')
+                while (vowel_count < 2)
                 {
-                    vowel_count = vowel_count + 1
-                    if (last_vowel == 0)
-                    {last_vowel = i}
-                    if (vowel_count == 2)
+                    if (current_word_spannable[work_index-i] == 'a' || current_word_spannable[work_index-i] == 'e' || current_word_spannable[work_index-i] == 'ą' || current_word_spannable[work_index-i] == 'ę' || current_word_spannable[work_index-i] == 'i' || current_word_spannable[work_index-i] == 'o' || current_word_spannable[work_index-i] == 'ó' || current_word_spannable[work_index-i] == 'u' || current_word_spannable[work_index-i] == 'y')
                     {
-                        if (current_word_spannable[work_index-i] == 'i' && (last_vowel + 1 == i))
+                        vowel_count = vowel_count + 1
+                        if (last_vowel == 0)
+                        { last_vowel = i }
+                        if (vowel_count == 2)
                         {
-                            vowel_count = vowel_count - 1
+                            if (current_word_spannable[work_index-i] == 'i' && (last_vowel + 1 == i))
+                            { vowel_count = vowel_count - 1 }
+                            else
+                            { span_begin = work_index - i + 1 }
                         }
-                        span_begin = work_index - i + 1
+
+                        if (i == work_index)
+                        {
+                            vowel_count = 2
+                            span_begin = 0
+                        }
+                        i = i + 1
                     }
-                    i = i + 1
-                    if (i == work_index)
+                    else
                     {
-                        vowel_count = 2
-                    }
-                }
-                else
-                {
-                    i = i + 1
-                    if (i == work_index)
-                    {
-                        vowel_count = 2
-                        span_begin = 0
+
+                        if (i == work_index)
+                        {
+                            vowel_count = 2
+                            span_begin = 0
+                        }
+                        i = i + 1
                     }
                 }
             }
-
 
             current_word_spannable.setSpan(fgd_color,
                 span_begin, span_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
