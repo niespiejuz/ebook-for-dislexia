@@ -12,6 +12,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="styles_text_color">#707070</color>
+    <color name="splash_screen_gray">#030303</color>
 
     <color name="mysterious_bg">#f0f0f0</color>
     <color name="mysterious_hi">#000000</color>
