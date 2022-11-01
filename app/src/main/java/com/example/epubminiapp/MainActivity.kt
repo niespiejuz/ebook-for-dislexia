@@ -18,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
@@ -52,12 +53,13 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         setContentView(R.layout.main_activity)
         this.textSize = Settings.fontSize
 
-
         pxScreenWidth = resources.displayMetrics.widthPixels
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
         mViewPager = findViewById<View>(R.id.container) as ViewPager
+
         mViewPager!!.offscreenPageLimit = 1
         mViewPager!!.adapter = mSectionsPagerAdapter
+        mViewPager!!.setBackgroundResource(Settings.getStyle().get("bg")!!)
 
 
         if (intent != null && intent.extras != null) {
@@ -129,9 +131,12 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
 
         scrollView.layoutParams = layoutParams
         val textView = TextView(this@MainActivity)
+        textView.setBackgroundResource(Settings.getStyle().get("bg")!!)
+
         currentTextView = textView
         textView.layoutParams = layoutParams
-        textView.setTextColor(Color.WHITE)
+        textView.setTextColor(ContextCompat.getColor(this,Settings.getStyle().get("etc")!!))
+
         textView.setTextSize(this.textSize)
         var typeface = ResourcesCompat.getFont(this, R.font.comicmono)
         textView.typeface = typeface
@@ -175,7 +180,8 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         do
         {
             val current_word_spannable = SpannableStringBuilder(word_list[word_counter] + " ")
-            val fgd_color = ForegroundColorSpan(Color.BLUE)
+            val fgd_color_value = Settings.getStyle().get("syl")!!
+            val fgd_color = ForegroundColorSpan(ContextCompat.getColor(this,fgd_color_value))
             var work_index = word_list[word_counter].length
             //val span_begin = work_index-2
             var span_begin = 0
@@ -237,7 +243,8 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         {
             val span_begin = the_layout.getLineStart(lineCounter)
             val span_end = the_layout.getLineEnd(lineCounter)
-            val bckd_color = BackgroundColorSpan(Color.YELLOW)
+            val bckd_color = BackgroundColorSpan(ContextCompat.
+                    getColor(this,Settings.getStyle().get("hi")!!))
             text_spanned.setSpan(bckd_color,
                 span_begin, span_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
@@ -245,7 +252,8 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         {
             val span_begin2 = the_layout.getLineStart(lineCounter-1)
             val span_end2 = the_layout.getLineEnd(lineCounter-1)
-            val bckd_color2 = BackgroundColorSpan(Color.GRAY)
+            val bckd_color2 = BackgroundColorSpan(ContextCompat.
+                getColor(this,Settings.getStyle().get("etc")!!))
             text_spanned.setSpan(bckd_color2,
                 span_begin2, span_end2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
