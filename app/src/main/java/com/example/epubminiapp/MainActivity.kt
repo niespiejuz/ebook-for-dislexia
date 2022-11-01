@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             try {
                 reader = Reader()
                 // Setting optionals once per file is enough.
-                reader!!.setMaxContentPerSection(400000 /this.textSize.pow(2).toInt() )
+                reader!!.setMaxContentPerSection(400000/this.textSize.pow(2).toInt() )
                 reader!!.setCssStatus(CssStatus.OMIT)
                 reader!!.setIsIncludingTextContent(true)
                 reader!!.setIsOmittingTitleTag(true)
@@ -251,29 +251,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         }
         text_view!!.setText(text_spanned)
     }
-    fun getCurrentView(viewPager: ViewPager): View? {
-        try {
-            val currentItem = viewPager.currentItem
-            for (i in 0 until viewPager.childCount) {
-                val child = viewPager.getChildAt(i)
-                val layoutParams = child.layoutParams as ViewPager.LayoutParams
-                val f: Field =
-                    layoutParams.javaClass.getDeclaredField("position") //NoSuchFieldException
-                f.setAccessible(true)
-                val position = f.get(layoutParams) as Int //IllegalAccessException
-                if (!layoutParams.isDecor && currentItem == position) {
-                    return child
-                }
-            }
-        } catch (e: NoSuchFieldException) {
-            Log.e(TAG, e.toString())
-        } catch (e: IllegalArgumentException) {
-            Log.e(TAG, e.toString())
-        } catch (e: IllegalAccessException) {
-            Log.e(TAG, e.toString())
-        }
-        return null
-    }
+
     public final fun onNextLineButtonPress(vw: android.view.View) {
         colorLines()
     }

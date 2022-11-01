@@ -2,9 +2,8 @@ package com.example.epubminiapp
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.SeekBar
-import android.widget.Switch
-import android.widget.ToggleButton
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class SettingsView : AppCompatActivity() {
@@ -50,14 +49,33 @@ class SettingsView : AppCompatActivity() {
                     apply()
                 }
             }
-
             override fun onStartTrackingTouch(seek: SeekBar) {
-                // write custom code for progress is started 1
+                // write custom code for progress is started
             }
 
             override fun onStopTrackingTouch(seek: SeekBar) {
             }
         })
+
+        // Spinner for styles
+        val stylesSpinner: Spinner = findViewById(R.id.styleSpinner)
+        val list: MutableList<String> = mutableListOf<String>("Default","Dark","Mysterious")
+        val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
+        stylesSpinner.adapter = adapter
+        stylesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                with(savedPreferences.edit()){
+                    putInt("style", p2)
+                    apply()
+                }
+                Settings.style = p2
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                // not yet implemented
+            }
+
+        }
     }
 
 
