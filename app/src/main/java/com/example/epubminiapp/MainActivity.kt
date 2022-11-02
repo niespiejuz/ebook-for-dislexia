@@ -36,20 +36,17 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private var pageCount = Int.MAX_VALUE
     private var pxScreenWidth = 0
-    private var textSize: Float = 1.0f
     private var isSkippedToPage = false
     private var lineCounter = 0
     private var currentTextView:TextView? = null
     private var currentScrollView:ScrollView? = null
 
     // first line bug hotfix variables
-    private var firstPageSkipped = false
     private var firstPageId : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        this.textSize = AppSettings.fontSize
 
         pxScreenWidth = resources.displayMetrics.widthPixels
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -57,7 +54,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
 
         mViewPager!!.offscreenPageLimit = 1
         mViewPager!!.adapter = mSectionsPagerAdapter
-        mViewPager!!.setBackgroundResource(AppSettings.getStyle().get("bg")!!)
+        mViewPager!!.setBackgroundResource(AppSettings.getStyle()["bg"]!!)
 
 
         if (intent != null && intent.extras != null) {
@@ -65,7 +62,14 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             try {
                 reader = Reader()
                 // Setting optionals once per file is enough.
-                reader!!.setMaxContentPerSection(300000/this.textSize.pow(2).toInt() )
+                val font_size = AppSettings.fontSize
+                var text_amount = 1250
+                when(font_size){
+                    0 -> text_amount = 650
+                    1 -> text_amount = 500
+                    2 -> text_amount = 350
+                }
+                reader!!.setMaxContentPerSection(text_amount)
                 reader!!.setCssStatus(CssStatus.OMIT)
                 reader!!.setIsIncludingTextContent(true)
                 reader!!.setIsOmittingTitleTag(true)
@@ -133,11 +137,17 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         val textView = TextView(this@MainActivity)
         textView.setBackgroundResource(AppSettings.getStyle().get("bg")!!)
 
-        currentTextView = textView
         textView.layoutParams = layoutParams
         textView.setTextColor(ContextCompat.getColor(this,AppSettings.getStyle().get("etc")!! ))
+        val font_size = AppSettings.fontSize
+        var font_size_px = 0.0f
+        when(font_size){
+            0 -> font_size_px = 25.0f
+            1 -> font_size_px = 30.0f
+            2 -> font_size_px = 35.0f
+        }
+        textView.textSize = font_size_px
 
-        textView.setTextSize(this.textSize)
         var typeface = ResourcesCompat.getFont(this, R.font.comicmono)
         textView.typeface = typeface
         lineCounter = 0
