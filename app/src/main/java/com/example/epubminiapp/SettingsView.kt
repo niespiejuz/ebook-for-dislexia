@@ -57,17 +57,19 @@ class SettingsView : AppCompatActivity() {
 
         toggle_size.setProgress(1)
         toggle_size.setMax(2)
-        toggle_size.progress = (savedPreferences.getFloat("font_size", 50.0f).toInt()*40)/100
+        toggle_size.progress = ((savedPreferences.getFloat("font_size", 30.0f)-30.0f).toInt())/10
         toggle_size?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seek: SeekBar,
                                            progress: Int, fromUser: Boolean) {
                 if (progress >= 0 && progress <= seek.getMax()) {
+
                     seek.setSecondaryProgress(progress)
                 }
                 val min_font_size = 20.0f
                 val max_font_size = 40.0f
-                AppSettings.fontSize = (progress/100.0f)*(max_font_size-min_font_size)+ min_font_size
+                AppSettings.fontSize = (progress)*(max_font_size-min_font_size)+ min_font_size
+                print(AppSettings.fontSize)
                 with(savedPreferences.edit()){
                     putFloat("font_size", AppSettings.fontSize)
                     apply()
