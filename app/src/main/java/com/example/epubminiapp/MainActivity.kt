@@ -258,7 +258,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             val span_begin = the_layout.getLineStart(lineCounter)
             val span_end = the_layout.getLineEnd(lineCounter)
             val bckd_color = ForegroundColorSpan(ContextCompat.
-                    getColor(this,AppSettings.getStyle().get("etc")!!))
+                    getColor(this,AppSettings.getStyle().get("hi")!!))
 
             text_spanned.setSpan(bckd_color, span_begin,
                 span_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -268,7 +268,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             val span_begin2 = the_layout.getLineStart(lineCounter-1)
             val span_end2 = the_layout.getLineEnd(lineCounter-1)
             val bckd_color2 = ForegroundColorSpan(ContextCompat.
-                getColor(this,AppSettings.getStyle().get("hi")!!))
+                getColor(this,AppSettings.getStyle().get("etc")!!))
 
             text_spanned.setSpan(bckd_color2,
                 span_begin2, span_end2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
