@@ -65,9 +65,9 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
                 val font_size = AppSettings.fontSize
                 var text_amount = 1250
                 when(font_size){
-                    0 -> text_amount = 650
-                    1 -> text_amount = 500
-                    2 -> text_amount = 350
+                    0 -> text_amount = 750
+                    1 -> text_amount = 300
+                    2 -> text_amount = 80
                 }
                 reader!!.setMaxContentPerSection(text_amount)
                 reader!!.setCssStatus(CssStatus.OMIT)
@@ -142,9 +142,9 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         val font_size = AppSettings.fontSize
         var font_size_px = 0.0f
         when(font_size){
-            0 -> font_size_px = 25.0f
-            1 -> font_size_px = 30.0f
-            2 -> font_size_px = 35.0f
+            0 -> font_size_px = 22.0f
+            1 -> font_size_px = 28.0f
+            2 -> font_size_px = 34.0f
         }
         textView.textSize = font_size_px
 
@@ -182,7 +182,6 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
     }
 
     public fun colorEndings(text_string: CharSequence){
-        // nata code końcówki
 
         val word_list = text_string.split(" ")
         var word_counter = 0
