@@ -82,6 +82,7 @@ class SettingsView : AppCompatActivity() {
         val list: MutableList<String> = mutableListOf<String>("Default","Dark","Mysterious")
         val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
         stylesSpinner.adapter = adapter
+
         stylesSpinner.setSelection(AppSettings.style)
         adapter.notifyDataSetChanged()
         stylesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -91,6 +92,7 @@ class SettingsView : AppCompatActivity() {
                     apply()
                 }
                 AppSettings.style = p2
+                stylesSpinner.setSelection(AppSettings.style)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
