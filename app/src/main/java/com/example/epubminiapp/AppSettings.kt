@@ -2,16 +2,11 @@ package com.example.epubminiapp
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.os.Build
-import android.util.Log
-import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
 
 object AppSettings {
-    var endingHighlighting = false;
-    var lineHighlighting = true;
-    var fontSize:Float = 34.0f
+    var endingHighlighting = false
+    var lineHighlighting = true
+    var fontSize:Int = 1
     private lateinit var savedPreferences:SharedPreferences
 
     fun init(context: Context) {
@@ -19,7 +14,7 @@ object AppSettings {
         style = savedPreferences.getInt("style",0)
         endingHighlighting = savedPreferences.getBoolean("ending_highlighting", false)
         lineHighlighting = savedPreferences.getBoolean("line_highlighting", false)
-        fontSize = savedPreferences.getFloat("font_size", 34.0f)
+        fontSize = savedPreferences.getInt("font_scale", 1)
     }
 
 
