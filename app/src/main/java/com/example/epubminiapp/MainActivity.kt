@@ -148,9 +148,9 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         }
         textView.textSize = font_size_px
 
-        var typeface = ResourcesCompat.getFont(this, R.font.comicmono)
+        var typeface = ResourcesCompat.getFont(this, R.font.robotomedium)
         textView.typeface = typeface
-        lineCounter = 0
+        lineCounter = -1
 
         textView.text = Html.fromHtml(data, { source ->
             val imageAsStr = source.substring(source.indexOf(";base64,") + 8)
@@ -163,6 +163,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             imageAsDrawable
         }, null)
 
+        currentTextView=textView
 
         if(AppSettings.endingHighlighting){
             colorEndings(textView.text)
@@ -188,7 +189,6 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         var text_spanned = SpannableStringBuilder("")
         do
         {
-            print(word_list[word_counter])
             val current_word_spannable = SpannableStringBuilder(word_list[word_counter] + " ")
             val fgd_color_value = AppSettings.getStyle().get("syl")!!
             val fgd_color = ForegroundColorSpan(ContextCompat.getColor(this,fgd_color_value))
@@ -256,7 +256,6 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
             page_index = 0
         }
         var current_view = mViewPager!!.getChildAt(page_index) as RelativeLayout
-        var hey = mViewPager!!.childCount
         var current_scroll = current_view[0] as ScrollView
         var text_view = current_scroll[0] as TextView
         ++lineCounter
