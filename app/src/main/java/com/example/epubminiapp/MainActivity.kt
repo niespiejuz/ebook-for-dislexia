@@ -27,7 +27,6 @@ import com.github.mertakdut.CssStatus
 import com.github.mertakdut.Reader
 import com.github.mertakdut.exception.OutOfPagesException
 import com.github.mertakdut.exception.ReadingException
-import kotlin.math.pow
 
 
 class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
@@ -136,7 +135,7 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         scrollView.layoutParams = layoutParams
         val textView = TextView(this@MainActivity)
         textView.setBackgroundResource(AppSettings.getStyle().get("bg")!!)
-
+        textView.tag = "TheTextView"
         textView.layoutParams = layoutParams
         textView.setTextColor(ContextCompat.getColor(this,AppSettings.getStyle().get("etc")!! ))
         val font_size = AppSettings.fontSize
@@ -167,13 +166,6 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
 
         if(AppSettings.endingHighlighting){
             colorEndings(textView.text)
-        }
-
-        var nextLineButton = findViewById<View>(R.id.NextLineButton)
-        nextLineButton.visibility = View.GONE
-        if(AppSettings.lineHighlighting){
-            var nextLineButton = findViewById<View>(R.id.NextLineButton)
-            nextLineButton.visibility = View.VISIBLE
         }
 
         val pxPadding = dpToPx(12)
@@ -248,44 +240,6 @@ class MainActivity : AppCompatActivity(), OnFragmentReadyListener {
         while(++word_counter < word_list.count())
 
         currentTextView!!.text = text_spanned
-    }
-
-    public fun colorLines(){
-        var page_index = 1
-        if(firstPageId == mViewPager!!.currentItem){
-            page_index = 0
-        }
-        var current_view = mViewPager!!.getChildAt(page_index) as RelativeLayout
-        var current_scroll = current_view[0] as ScrollView
-        var text_view = current_scroll[0] as TextView
-        ++lineCounter
-        val the_layout = text_view!!.getLayout()
-        val text_spanned = SpannableStringBuilder(text_view!!.text)
-        if(lineCounter>=0 && lineCounter<text_view!!.lineCount)
-        {
-            val span_begin = the_layout.getLineStart(lineCounter)
-            val span_end = the_layout.getLineEnd(lineCounter)
-            val bckd_color = ForegroundColorSpan(ContextCompat.
-                    getColor(this,AppSettings.getStyle().get("hi")!!))
-
-            text_spanned.setSpan(bckd_color, span_begin,
-                span_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        if(lineCounter>0 && lineCounter<=text_view!!.lineCount)
-        {
-            val span_begin2 = the_layout.getLineStart(lineCounter-1)
-            val span_end2 = the_layout.getLineEnd(lineCounter-1)
-            val bckd_color2 = ForegroundColorSpan(ContextCompat.
-                getColor(this,AppSettings.getStyle().get("etc")!!))
-
-            text_spanned.setSpan(bckd_color2,
-                span_begin2, span_end2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        text_view!!.setText(text_spanned)
-    }
-
-    public final fun onNextLineButtonPress(vw: android.view.View) {
-        colorLines()
     }
 
     public final fun onNextButtonPress(vw: android.view.View) {

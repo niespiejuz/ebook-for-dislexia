@@ -100,14 +100,14 @@
         android:background="#000000"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <Button
-        android:id="@+id/NextLineButton"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:onClick="onNextLineButtonPress"
-        android:text=" "
-        app:layout_anchor="@+id/container"
-        app:layout_anchorGravity="bottom|center"
-        android:alpha="0.1"
-        />
+<!--    <Button-->
+<!--        android:id="@+id/NextLineButton"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="150dp"-->
+<!--        android:onClick="onNextLineButtonPress"-->
+<!--        android:text=" "-->
+<!--        app:layout_anchor="@+id/container"-->
+<!--        app:layout_anchorGravity="bottom|center"-->
+<!--        android:alpha="0.1"-->
+<!--        />-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
