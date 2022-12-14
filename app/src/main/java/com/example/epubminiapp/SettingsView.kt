@@ -55,17 +55,19 @@ class SettingsView : AppCompatActivity() {
             }
         }
 
-        // val toggle_size: SeekBar = findViewById(R.id.seekBar)
-        toggle_size.progress = (savedPreferences.getFloat("font_size", 50.0f).toInt()*40)/100
-        toggle_size?.setOnSeekBarChangeListener(object :
+        toggle_size.max = 2
+        toggle_size.progress = savedPreferences.getInt("font_scale",1)
+        toggle_size.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seek: SeekBar,
                                            progress: Int, fromUser: Boolean) {
-                val min_font_size = 20.0f
-                val max_font_size = 40.0f
-                AppSettings.fontSize = (progress/100.0f)*(max_font_size-min_font_size)+ min_font_size
+                if (progress >= 0 && progress <= seek.getMax()) {
+                    seek.setSecondaryProgress(progress)
+                }
+
+                AppSettings.fontSize = progress
                 with(savedPreferences.edit()){
-                    putFloat("font_size", AppSettings.fontSize)
+                    putInt("font_scale", AppSettings.fontSize)
                     apply()
                 }
             }
@@ -82,6 +84,7 @@ class SettingsView : AppCompatActivity() {
         val list: MutableList<String> = mutableListOf<String>("Default","Dark","Mysterious")
         val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
         stylesSpinner.adapter = adapter
+
         stylesSpinner.setSelection(AppSettings.style)
         adapter.notifyDataSetChanged()
         stylesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -91,6 +94,7 @@ class SettingsView : AppCompatActivity() {
                     apply()
                 }
                 AppSettings.style = p2
+                stylesSpinner.setSelection(AppSettings.style)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

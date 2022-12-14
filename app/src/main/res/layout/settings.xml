@@ -110,7 +110,7 @@
                                 app:layout_constraintTop_toTopOf="@id/stOp_ColorSuf_Txt" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
+                        <!--<androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/St_Option3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
@@ -135,7 +135,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="@id/stOp_SyllablesDiv_Txt" />
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/St_Option4"
@@ -159,7 +159,6 @@
                                 android:layout_height="48dp"
                                 android:background="#1B1B1B"
                                 android:backgroundTint="#000000"
-                                android:progress="50"
                                 app:layout_constraintBottom_toBottomOf="@id/StOp_TextSize_Txt"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="@id/StOp_TextSize_Txt" />
@@ -184,14 +183,12 @@
 
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/styleSpinner"
-                                style="@style/mySpinnerItemStyle"
-                                android:layout_width="160px"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="24dp"
-                                android:layout_marginTop="8dp"
-                                android:backgroundTint="@color/white"
+                                android:layout_width="160dp"
+                                android:layout_height="40dp"
+                                android:background="@color/white"
+
                                 android:spinnerMode="dropdown"
-                                app:layout_constraintStart_toEndOf="@+id/StOp_BackColor_Txt"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
